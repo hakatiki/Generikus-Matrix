@@ -16,8 +16,10 @@ int main(int argc, const char * argv[]) {
     {
        
     }
-    Matrix<float> hi(10,2,1.3);
+    Matrix<float> hi(4,2,1.3);
     std::cout << hi << hi.info();
+    Matrix<float> hihi = hi.T();
+    std::cout << hihi << hihi.info();
     std::cout << "Hello, World!\n";
     return 0;
 }

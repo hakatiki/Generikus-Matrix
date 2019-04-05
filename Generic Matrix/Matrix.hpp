@@ -20,7 +20,7 @@ template <typename T> Matrix<T> operator*(const int lhs, const Matrix<T>& rhs);
 template <typename type>
 class Matrix{
 private:
-    type* array = nullptr;  // Gyorsabb memória műveletek
+    type* array = nullptr;  // Gyorsabb memória műveletek és könnyebben vektorizálható
     size_t ROWS = 0;
     size_t COLS = 0;
 public:
@@ -33,11 +33,11 @@ public:
     friend std::ostream & operator<< <>(std::ostream& os, const Matrix & ref); // Pipa
     friend Matrix operator* <>(const int lhs, const Matrix& rhs);
  
-    Matrix T() const;
+    Matrix T() const;                                               //Pipa
     Matrix operator*(const Matrix& rhs)const;
     
-    Matrix& operator=(const Matrix& rhs);
-    Matrix operator+(const Matrix& rhs) const;
+    Matrix& operator=(const Matrix& rhs);                           //Pipa
+    Matrix operator+(const Matrix& rhs) const;                      //Pipa
     type& operator()(size_t x, size_t y);                           //Pipa
     type operator()(size_t x, size_t y) const;                      //Pipa
     std::string info() const;                                       //Pipa

@@ -71,6 +71,42 @@ std::string Matrix<type>::info() const{
     str += "(" + to_string(ROWS) + " x " +to_string(COLS) + ")> \n";
     return str;
 }
+template <typename type>
+Matrix<type> Matrix<type>::T() const{
+    Matrix m(COLS, ROWS);
+    for (size_t i = 0; i < ROWS; i++)
+        for (size_t j = 0; j < COLS; j++){
+            m(j,i) = (*this)(i,j);
+        }
+    return m;
+}
+template <typename type>
+Matrix<type> Matrix<type>::operator+(const Matrix& rhs) const{
+    if (ROWS != rhs.ROWS || COLS != rhs.COLS)
+        throw std::invalid_argument("The matricies doesn't match up!\n");
+    Matrix m(*this);
+    for (size_t i = 0; i < ROWS; i++)
+        for (size_t j = 0; j < COLS; j++){
+            m(i,j) += rhs(i,j);
+        }
+    return m;
+}
+template <typename type>
+Matrix<type>& Matrix<type>::operator=(const Matrix& rhs){
+    if(this == &rhs)
+        throw std::invalid_argument("Don't do this pls...\n");
+    delete[] array;
+    COLS = rhs.COLS;
+    ROWS = rhs.ROWS;
+    array = new type[ROWS*COLS];
+    size_t index = 0;
+    for (int i = 0; i < ROWS; i++)
+        for (int j = 0; j < COLS; j++){
+            array[index] = rhs.array[index];
+            index++;
+        }
+    return *this;
+}
 
 
 template <typename type>
