@@ -7,6 +7,7 @@
 //
 
 #include "Matrix.hpp"
+#include <exception>
 
 
 template <typename type>
@@ -50,6 +51,27 @@ Matrix<type>::~Matrix(){
 #endif
     delete[] array;
 }
+template <typename type>
+type& Matrix<type>::operator()(size_t i, size_t j){
+    if (i >= ROWS || j >= COLS)
+        throw std::out_of_range("Out of range\n");
+    return array[i*COLS+j];
+}
+template <typename type>
+type Matrix<type>::operator()(size_t i, size_t j)const{
+    if (i >= ROWS || j >= COLS)
+        throw std::out_of_range("Out of range\n");
+    return array[i*COLS+j];
+}
+template <typename type>
+std::string Matrix<type>::info() const{
+    using namespace std;
+    std::string str = "<[Matrix], ";
+    str += "size is: " + to_string(ROWS*COLS*sizeof(type)+8) + " bytes ";
+    str += "(" + to_string(ROWS) + " x " +to_string(COLS) + ")> \n";
+    return str;
+}
+
 
 template <typename type>
 std::ostream& operator<<(std::ostream& os, const Matrix<type>& ref){
@@ -84,7 +106,11 @@ std::ostream& operator<<(std::ostream& os, const Matrix<type>& ref){
 
 
 
-
+/* Hogy külön fordítási egységben lehessen a tamletelni kell az osztályt
+   különben liker errort kapunk. Így elkészítve a fordítás jelentősen gyorsul
+   mivel nem kell mindig külön fordítani ezt a sok kódot amikor változtatunk
+   akármit egy fileban ahova includeolva van. Valamint az exe mérete is sokkal kissebb
+   lesz mivel nem inline fügvény lesz belőlük.                                  */
 template std::ostream& operator<<(std::ostream& os, const Matrix<int>& ref);
 template std::ostream& operator<<(std::ostream& os, const Matrix<double>& ref);
 template std::ostream& operator<<(std::ostream& os, const Matrix<float>& ref);

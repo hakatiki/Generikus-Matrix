@@ -17,7 +17,7 @@ int main(int argc, const char * argv[]) {
        
     }
     Matrix<float> hi(10,2,1.3);
-    std::cout << hi;
+    std::cout << hi << hi.info();
     std::cout << "Hello, World!\n";
     return 0;
 }
