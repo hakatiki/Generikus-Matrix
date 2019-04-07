@@ -15,11 +15,11 @@
 
 template <typename T> class Matrix;
 template <typename T> std::ostream & operator<<(std::ostream& os, const Matrix<T> & ref);
-template <typename T> Matrix<T> operator*(const int lhs, const Matrix<T>& rhs);
+template <typename T> Matrix<T> operator*(T lhs, const Matrix<T>& rhs);
 
 template <typename type>
 class Matrix{
-private:
+protected:
     type* array = nullptr;  // Gyorsabb memória műveletek és könnyebben vektorizálható
     size_t ROWS = 0;
     size_t COLS = 0;
@@ -29,21 +29,27 @@ public:
     Matrix(const Matrix& ref);                                      // Pipa
     virtual ~Matrix();                                              // Pipa
     
-    /*-----------------------------DEBUGHOZ-----------------------------*/
     friend std::ostream & operator<< <>(std::ostream& os, const Matrix & ref); // Pipa
-    friend Matrix operator* <>(const int lhs, const Matrix& rhs);
+    friend Matrix operator* <>(type lhs, const Matrix& rhs);
  
     Matrix T() const;                                               //Pipa
-    Matrix operator*(const Matrix& rhs)const;
+    Matrix operator*(const Matrix& rhs)const;                       //Pipa
+    Matrix operator*(type rhs)const;                                //Pipa
     
     Matrix& operator=(const Matrix& rhs);                           //Pipa
     Matrix operator+(const Matrix& rhs) const;                      //Pipa
     type& operator()(size_t x, size_t y);                           //Pipa
     type operator()(size_t x, size_t y) const;                      //Pipa
-    std::string info() const;                                       //Pipa
+    virtual std::string info() const;                               //Pipa
     
 };
-
+template <typename type>
+class Vector : public Matrix<type>{
+public:
+    Vector(size_t R_, type t);
+    Vector(size_t R_);
+    std::string info() const override;                      //Pipa
+};
 
 
 

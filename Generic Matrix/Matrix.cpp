@@ -108,6 +108,33 @@ Matrix<type>& Matrix<type>::operator=(const Matrix& rhs){
     return *this;
 }
 
+template <typename type>
+Matrix<type> Matrix<type>::operator*(const Matrix& rhs)const{
+    if (COLS != rhs.ROWS)
+        throw std::invalid_argument("The matricies doesn't match up!\n");
+    Matrix m(ROWS, rhs.COLS,0);
+    for (size_t i = 0; i < ROWS; i++){
+        for (size_t j = 0; j < rhs.COLS; j++){
+            for(size_t k = 0; k < COLS; k++){
+                m(i,j) += (*this)(i,k)*rhs(k,j);
+            }
+        }
+    }
+    return m;
+}
+
+template <typename type>
+Matrix<type> Matrix<type>::operator*(type rhs)const{
+    Matrix m(*this);
+    size_t index = 0;
+    for (int i = 0; i < ROWS; i++)
+        for (int j = 0; j < COLS; j++){
+            m.array[index] *= rhs;
+            index++;
+        }
+    return m;
+}
+
 
 template <typename type>
 std::ostream& operator<<(std::ostream& os, const Matrix<type>& ref){
@@ -131,9 +158,27 @@ std::ostream& operator<<(std::ostream& os, const Matrix<type>& ref){
 }
 
 
+template <typename type>
+Vector<type>::Vector(size_t R_, type t):
+    Matrix<type>(R_, 1, t )
+{
+    
+}
+template <typename type>
+Vector<type>::Vector(size_t R_):
+    Matrix<type>(R_,1)
+{
+    
+}
 
-
-
+template <typename type>
+std::string Vector<type>::info() const{
+    using namespace std;
+    std::string str = "<[Vector], ";
+    str += "size is: " + to_string(Matrix<type>::ROWS*Matrix<type>::COLS*sizeof(type)+8) + " bytes ";
+    str += "(" + to_string(Matrix<type>::ROWS) + " x " +to_string(Matrix<type>::COLS) + ")> \n";
+    return str;
+}
 
 
 
@@ -157,3 +202,8 @@ template class Matrix<double>;
 template class Matrix<float>;
 template class Matrix<long>;
 
+
+template class Vector<int>;
+template class Vector<double>;
+template class Vector<float>;
+template class Vector<long>;
