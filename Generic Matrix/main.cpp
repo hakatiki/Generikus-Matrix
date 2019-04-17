@@ -25,6 +25,13 @@ int main(int argc, const char * argv[]) {
     Vector<float> veci(3, 2);
     std::cout << veci << veci.info();
     std::cout <<hi * veci;
+    Matrix<float> cpy(hihi);
+    Matrix<float> cpy1(hi);
+    Matrix<float> cpy2(veci);
+    
+    std::cout << "Iterator test\n";
+    for (auto i : veci)
+        std::cout << i;
     std::cout << "Hello, World!\n";
     return 0;
 }

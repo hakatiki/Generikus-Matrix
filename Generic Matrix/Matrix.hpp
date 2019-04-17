@@ -41,14 +41,28 @@ public:
     type& operator()(size_t x, size_t y);                           //Pipa
     type operator()(size_t x, size_t y) const;                      //Pipa
     virtual std::string info() const;                               //Pipa
+    class iterator{
+    private:
+        type * it;
+    public:
+        iterator(type * p): it(p){};
+        iterator& operator ++(int){it++; return (*this);};
+        iterator operator ++(){iterator cpy = *this; it++; return cpy; };
+        type& operator*()const {return *it;}
+        type& operator*() {return *it;}
+        bool operator == (const iterator& ref){ return it == ref.it;};
+        bool operator != (const iterator& ref){ return !((*this) == ref);};
+    };
+    iterator begin(){return iterator(array);}
+    iterator end(){return iterator(array+ROWS*COLS);}
     
 };
 template <typename type>
 class Vector : public Matrix<type>{
 public:
-    Vector(size_t R_, type t);
-    Vector(size_t R_);
-    std::string info() const override;                      //Pipa
+    Vector(size_t R_, type t);                                      //Pipa
+    Vector(size_t R_);                                              //Pipa
+    std::string info() const override;                              //Pipa
 };
 
 
