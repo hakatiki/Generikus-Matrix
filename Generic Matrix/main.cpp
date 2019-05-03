@@ -2,9 +2,6 @@
 //  main.cpp
 //  Generic Matrix
 //
-//  Created by Takáts Bálint on 2019. 04. 02..
-//  Copyright © 2019. Takáts Bálint. All rights reserved.
-//
 
 #include <iostream>
 #include "Matrix.hpp"
@@ -75,10 +72,27 @@ int main() {
         Vector<int> vec(4, 10);
         Matrix<int> mx_mul(3, 1, 160);
         Vector<int> vec_mul(3, 160);
-        EXPECT_TRUE(mx*vec == vec_mul);
-        EXPECT_TRUE(mx*vec == mx_mul);
+        EXPECT_TRUE(mx*vec == vec_mul)<< "Vektor szorzás rossz";
+        EXPECT_TRUE(mx*vec == mx_mul)<< "Vektor szorzás rossz";;
     }END
-    
+    TEST(Matrix, iterator){
+        Matrix<int> mx(2, 21, 10);
+        for (auto i: mx)
+            EXPECT_EQ(i, 10);
+        Matrix<int>::iterator it = mx.begin();
+        for (int i = 0; i < 2 * 21; i++, it++);
+        EXPECT_TRUE(it == mx.end());
+        EXPECT_TRUE(mx.begin() != mx.end()); 
+    }END
+    TEST(Matrix, cpy){
+        Matrix<int> mx1(2, 21, 10);
+        Matrix<int> cpy1(mx1);
+        Matrix<int> cpy2 = mx1;
+        Matrix<int> mx2(2,10);
+        mx2 = mx1;
+        EXPECT_TRUE(mx2 == cpy1);
+        EXPECT_FALSE(mx2 != cpy2);
+    }END
     return 0;
 }
 
