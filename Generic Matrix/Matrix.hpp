@@ -181,9 +181,23 @@ public:
         bool operator != (const iterator& ref){ return !((*this) == ref);};
     };
     
-    iterator begin(){return iterator(array);}
-    iterator end(){return iterator(array+ROWS*COLS);}
+    iterator begin()const {return iterator(array);}
+    iterator end()const {return iterator(array+ROWS*COLS);}
     
+    void save(std::ostream& os) const{
+        os << ROWS << " " << COLS << " ";
+        for (auto i : (*this)){
+            os << i << " ";
+        }
+    }
+    void load(std::istream& is){
+        delete [] array;
+        is >> ROWS >> COLS;
+        array = new type[ROWS*COLS];
+        for(size_t i = 0; i < ROWS* COLS; i++){
+            is >> array[i];
+        }
+    }
 };
 
 

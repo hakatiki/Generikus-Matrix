@@ -4,6 +4,7 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include "Matrix.hpp"
 #include "memtrace.h"
 #include "gtest_lite.h"
@@ -93,6 +94,15 @@ int main() {
         EXPECT_TRUE(mx2 == cpy1);
         EXPECT_FALSE(mx2 != cpy2);
     }END
+    TEST(Matrix, save){
+        Matrix<int> mx1(2, 3, 9);
+        std::stringstream is("");
+        mx1.save(is);
+        Matrix<int> mx2;
+        mx2.load(is);
+        EXPECT_TRUE(mx2 == mx1);
+    }END
+    
     return 0;
 }
 
